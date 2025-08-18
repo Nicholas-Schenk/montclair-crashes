@@ -9,16 +9,28 @@ export default function FeedItem({pin}: {pin : CrashData}){
 
     const formatDate = (dateString: string) => {
         const date = new Date(dateString);
-        return date.toLocaleString('default', {month: 'short', day: 'numeric', year: 'numeric'})
+        const date_str = date.toLocaleString('default', {month: 'short', day: 'numeric', year: 'numeric'})
+        if(date_str === "Invalid Date"){
+            return dateString
+        } else {
+            return date_str
+        }
     }
     const theme = useTheme()
 
+    const severityColorMap: {[key: string]: string | undefined} = {
+        "f": "red",
+        "s": "#fcba03",
+        "m": "#FF8C00",
+        "p": "#90EE90"
+      }
+
     return (
-        <Stack sx={{ backgroundColor: 'white', border: `2px solid ${pin.severity === "severe" ? theme.palette.severe.main: theme.palette.minor.main}`, borderRadius: "4px", width: "calc(100% - 4px)x", p: 1}}>
+        <Stack sx={{ backgroundColor: 'white', border: `2px solid ${severityColorMap[pin.severity]}`, borderRadius: "4px", width: "calc(100% - 4px)x", p: 1}}>
             <Stack direction={'row'} justifyContent={'space-between'}>
                 <Stack direction={'row'} spacing={1}>
                     <Typography variant="h5" sx={{color: theme.palette.green.main}}>{pin.placeDescription}</Typography>
-                    {pin.severity === "severe" ? <CarCrash /> : <MinorCrash sx={{color: theme.palette.minor.main}}/>}
+                    {pin.severity === "s" || pin.severity === "f" ? <CarCrash sx={{color: severityColorMap[pin.severity]}}/> : <MinorCrash sx={{color: severityColorMap[pin.severity]}}/>}
                 </Stack>
                 <Typography sx={{ pt: 1, fontWeight: 500, color: theme.palette.grey[500]}}>{formatDate(pin.date)}</Typography>
             </Stack>

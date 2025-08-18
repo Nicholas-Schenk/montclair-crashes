@@ -32,7 +32,7 @@ export default function MapView({onDrag, setPlaceDescription}: {setPlaceDescript
 
     return (
         <Box sx={{backgroundColor: "red", height: "600px", width: "500px"}}>
-            <APIProvider apiKey={process.env.GOOGLE_MAPS_API_KEY!}>
+            <APIProvider apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!}>
                 <Map 
                     mapId={"montclair-crashes"} 
                     defaultZoom={13}
